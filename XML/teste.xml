@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<contexts>
+  <contextList>
+    <context>
+      <info>
+        <name>area_social</name>
+        <friendlyName>Área Social</friendlyName>
+      </info>
+      <rangeBlocks>
+        <block>
+          <positionX>0</positionX>
+          <positionY>1</positionY>
+          <width>2</width>
+          <height>3</height>
+        </block>
+        <block>
+          <positionX>0</positionX>
+          <positionY>1</positionY>
+          <width>2</width>
+          <height>3</height>
+        </block>
+        <block>
+          <positionX>0</positionX>
+          <positionY>1</positionY>
+          <width>2</width>
+          <height>3</height>
+        </block>
+        <block>
+          <positionX>0</positionX>
+          <positionY>1</positionY>
+          <width>2</width>
+          <height>3</height>
+        </block>
+      </rangeBlocks>
+      <url>
+        <LightedImage>/SmartHouse/Images/HouseMapImages/Lighted/area_social_partial.png</LightedImage>
+      </url>
+    </context>
+  </contextList>
+</contexts>
