@@ -12,7 +12,7 @@ public class SmartHouseApp {
 	 */
 	public static void main(String[] args) {
 		
-		ApplicationData.LoadXml();
+		//ApplicationData.LoadXml();
 		
 		// TODO Auto-generated method stub
 		MainScreen screen = new MainScreen();

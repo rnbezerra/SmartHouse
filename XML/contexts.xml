@@ -1,40 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ContextArray>
-	<context>
-		<info>
-			<name>area_social</name>
-			<friendlyName>Área Social</friendlyName>
-		</info>
-		<rangeBlocks>
-			<block>
-				<x>306</x>
-				<y>287</y>
-				<width>240</width>
-				<height>114</height>
-			</block>
-			<block>
-				<x>32</x>
-				<y>293</y>
-				<width>276</width>
-				<height>251</height>
-			</block>
-			<block>
-				<x>307</x>
-				<y>400</y>
-				<width>86</width>
-				<height>144</height>
-			</block>
-			<block>
-				<x>32</x>
-				<y>543</y>
-				<width>137</width>
-				<height>91</height>
-			</block>
-
-
-		</rangeBlocks>
-		<Url>
-			<LightedImage>/SmartHouse/Images/HouseMapImages/Lighted/area_social_partial.png</LightedImage>
-		</Url>
-	</context>
-</ContextArray>
+<contexts>
+  <contextList>
+    <context>
+      <info>
+        <name>area_social</name>
+        <friendlyName>Area Social</friendlyName>
+      </info>
+      <rangeBlocks>
+        <block>
+          <positionX>0</positionX>
+          <positionY>1</positionY>
+          <width>2</width>
+          <height>3</height>
+        </block>
+        <block>
+          <positionX>0</positionX>
+          <positionY>1</positionY>
+          <width>2</width>
+          <height>3</height>
+        </block>
+        <block>
+          <positionX>0</positionX>
+          <positionY>1</positionY>
+          <width>2</width>
+          <height>3</height>
+        </block>
+        <block>
+          <positionX>0</positionX>
+          <positionY>1</positionY>
+          <width>2</width>
+          <height>3</height>
+        </block>
+      </rangeBlocks>
+      <url>
+        <LightedImage>/SmartHouse/Images/HouseMapImages/Lighted/area_social_partial.png</LightedImage>
+      </url>
+    </context>
+  </contextList>
+</contexts>

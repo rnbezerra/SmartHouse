@@ -1,7 +1,9 @@
 package com.smarthouse.appdata;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.InputStream;
 
 import com.smarthouse.appdata.context.Block;
 import com.smarthouse.appdata.context.Context;
@@ -45,15 +47,21 @@ public class ApplicationData {
 		xstream.alias("url", Url.class);
 		xstream.alias("info", Info.class);
 		String xml = xstream.toXML(array);
+		xml = new String();
 //		try {
 //			new java.io.PrintStream("XML/teste.xml").print(xml);
 //		} catch (FileNotFoundException e) {
 //			// TODO Auto-generated catch block
 //			e.printStackTrace();
 //		}
+	
 		
-		ContextArray readFromFile = (ContextArray)xstream.fromXML("XML/teste.xml");
-//		System.out.println(readFromFile.contextList[0].info.friendlyName);
+		try {
+			ContextArray readFromFile = (ContextArray)xstream.fromXML((InputStream)new FileInputStream("XML/teste.xml"));
+			System.out.println(readFromFile.contextList[0].info.friendlyName);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
 		
 	}
 	
