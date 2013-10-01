@@ -1,8 +1,8 @@
-package com.smarthouse.appdata.context;
+package com.smarthouse.appdata.context.markup;
 
 import java.awt.Point;
 
-public class ContextSide {
+public class ContextSide{
 
 	private Point startPoint;
 	private Point endPoint;

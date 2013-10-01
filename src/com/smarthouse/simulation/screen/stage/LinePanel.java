@@ -28,7 +28,10 @@ import javax.swing.KeyStroke;
 import javax.swing.plaf.basic.BasicSplitPaneUI.KeyboardEndHandler;
 
 import com.smarthouse.appdata.context.Context;
-import com.smarthouse.appdata.context.ContextSide;
+import com.smarthouse.appdata.context.markup.ContextMarkup;
+import com.smarthouse.appdata.context.markup.ContextMarkupDrawHelper;
+import com.smarthouse.appdata.context.markup.ContextMarkupList;
+import com.smarthouse.appdata.context.markup.ContextSide;
 
 /**
  * @see http://stackoverflow.com/questions/6991648
@@ -39,7 +42,7 @@ public class LinePanel extends JPanel {
 
     private MouseHandler mouseHandler = new MouseHandler();
     private KeyBoardHandler keyboardHandler = new KeyBoardHandler();
-    private ArrayList<ContextSide> sides = new ArrayList<ContextSide>();
+    private ContextMarkupList markupList = new ContextMarkupList();
     private boolean drawing;
 
     public LinePanel() {
@@ -67,8 +70,18 @@ public class LinePanel extends JPanel {
             BasicStroke.CAP_ROUND, BasicStroke.JOIN_BEVEL));
         
 //        g.drawLine(p1.x, p1.y, p2.x, p2.y);
-        for (ContextSide side : sides) {
-            g.drawLine(side.StartPoint().x, side.StartPoint().y, side.EndPoint().x, side.EndPoint().y);	
+        for (ContextMarkup markup : markupList) {
+        	if(markup.isNearOrigin()){
+        		Point origin = markup.firstSide().StartPoint();
+        		g.setColor(Color.YELLOW);
+        		g.fillOval(origin.x-(ContextMarkup.RANGE_SIZE/2), origin.y-(ContextMarkup.RANGE_SIZE/2), ContextMarkup.RANGE_SIZE, ContextMarkup.RANGE_SIZE);
+
+//        		g.setColor(Color.BLUE);
+        	}
+        	
+        	for (ContextSide side : markup) {
+        		g.drawLine(side.StartPoint().x, side.StartPoint().y, side.EndPoint().x, side.EndPoint().y);				
+			}        	     	
 		}
     }
 
@@ -79,8 +92,10 @@ public class LinePanel extends JPanel {
             drawing = true;
 //            p1 = e.getPoint();
 //            p2 = p1;
-            if(sides.isEmpty())
-            	sides.add(new ContextSide(e.getPoint(),e.getPoint()));
+            if(markupList.isEmpty()){
+            	markupList.add(new ContextMarkup());
+            	markupList.lastMarkup().add(new ContextSide(e.getPoint(),e.getPoint()));
+            }
             
             repaint();
         }
@@ -89,9 +104,9 @@ public class LinePanel extends JPanel {
         public void mouseReleased(MouseEvent e) {
 //            drawing = false;
 //            p2 = e.getPoint();            
-            if(sides.get(sides.size()-1) != null){
-            	sides.get(sides.size()-1).EndPoint(e.getPoint());
-            	sides.add(new ContextSide(e.getPoint(),e.getPoint()));
+            if(markupList.lastMarkup() != null && markupList.lastMarkup().lastSide()!= null ){
+            	markupList.lastMarkup().lastSide().EndPoint(e.getPoint());
+            	markupList.lastMarkup().add(new ContextSide(e.getPoint(),e.getPoint()));
             }
             repaint();
         }
@@ -105,7 +120,9 @@ public class LinePanel extends JPanel {
         public void mouseMoved(MouseEvent e) {        	
             if (drawing) {
 //                p2 = e.getPoint();
-            	if(sides.get(sides.size()-1) != null) sides.get(sides.size()-1).EndPoint(e.getPoint());
+            	if(markupList.lastMarkup() != null && markupList.lastMarkup().lastSide()!= null ){
+            		markupList.lastMarkup().lastSide().EndPoint(e.getPoint());
+            	}
                 repaint();
             }
         }
@@ -124,11 +141,12 @@ public class LinePanel extends JPanel {
 		
     	@Override
     	public void keyReleased(KeyEvent e) {
-    		if(deletePressed){
+    		if(deletePressed && markupList.lastMarkup() != null && markupList.lastMarkup().lastSide()!= null ){
     			deletePressed = false;
-    			Point p = sides.get(sides.size()-1).EndPoint();
-    			sides.remove(sides.size()-1);
-    			sides.get(sides.size()-1).EndPoint(p);
+    			
+    			Point p = markupList.lastMarkup().lastSide().EndPoint();
+    			markupList.remove(markupList.size()-1);
+    			markupList.lastMarkup().lastSide().EndPoint(p);
     			repaint();
     		}
     	}
