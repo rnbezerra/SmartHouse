@@ -1,13 +1,16 @@
 package com.smarthouse.appdata.context.markup;
 
+import java.awt.Color;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class ContextMarkup extends ArrayList<ContextSide> {
 
 	public static final int RANGE_SIZE = 16; 
+	public Color markupLineColor;
 	
 	public ContextSide firstSide() {
 		return this.get(0);
@@ -32,4 +35,19 @@ public class ContextMarkup extends ArrayList<ContextSide> {
 		}
 		else return false;
 	}
+
+	public Color getMarkupLineColor() {
+		
+		if(markupLineColor == null){
+			Random rand = new Random();
+			int r = rand.nextInt(155) + 100;
+			int g = rand.nextInt(155) + 100;
+			int b = rand.nextInt(155) + 100;
+//			markupLineColor = new Color(rand.nextInt()%255, rand.nextInt()%255, rand.nextInt()%255);
+			markupLineColor = new Color(r,g,b);
+		}
+		
+		return markupLineColor;
+	}
+
 }

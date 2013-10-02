@@ -44,6 +44,7 @@ public class LinePanel extends JPanel {
     private KeyBoardHandler keyboardHandler = new KeyBoardHandler();
     private ContextMarkupList markupList = new ContextMarkupList();
     private boolean drawing;
+    private Color defaultColor = Color.blue;
 
     public LinePanel() {
         this.setPreferredSize(new Dimension(640, 480));
@@ -62,7 +63,7 @@ public class LinePanel extends JPanel {
         g.drawImage(icon.getImage(), 0, 0, null);
         
         Graphics2D g2d = (Graphics2D) g;
-        g2d.setColor(Color.blue);
+//        g2d.setColor(defaultColor);
         g2d.setRenderingHint(
             RenderingHints.KEY_ANTIALIASING,
             RenderingHints.VALUE_ANTIALIAS_ON);
@@ -71,13 +72,13 @@ public class LinePanel extends JPanel {
         
 //        g.drawLine(p1.x, p1.y, p2.x, p2.y);
         for (ContextMarkup markup : markupList) {
-        	if(markup.isNearOrigin()){
+        	if(markup.isNearOrigin() && markup.equals(markupList.lastMarkup())){
         		Point origin = markup.firstSide().StartPoint();
         		g.setColor(Color.YELLOW);
         		g.fillOval(origin.x-(ContextMarkup.RANGE_SIZE/2), origin.y-(ContextMarkup.RANGE_SIZE/2), ContextMarkup.RANGE_SIZE, ContextMarkup.RANGE_SIZE);
-
-//        		g.setColor(Color.BLUE);
         	}
+        	
+        	g.setColor(markup.getMarkupLineColor());
         	
         	for (ContextSide side : markup) {
         		g.drawLine(side.StartPoint().x, side.StartPoint().y, side.EndPoint().x, side.EndPoint().y);				
@@ -89,12 +90,12 @@ public class LinePanel extends JPanel {
 
         @Override
         public void mousePressed(MouseEvent e) {
-            drawing = true;
 //            p1 = e.getPoint();
 //            p2 = p1;
-            if(markupList.isEmpty()){
+            if(markupList.isEmpty() || !drawing){
             	markupList.add(new ContextMarkup());
             	markupList.lastMarkup().add(new ContextSide(e.getPoint(),e.getPoint()));
+                drawing = true;
             }
             
             repaint();
@@ -104,10 +105,20 @@ public class LinePanel extends JPanel {
         public void mouseReleased(MouseEvent e) {
 //            drawing = false;
 //            p2 = e.getPoint();            
-            if(markupList.lastMarkup() != null && markupList.lastMarkup().lastSide()!= null ){
-            	markupList.lastMarkup().lastSide().EndPoint(e.getPoint());
-            	markupList.lastMarkup().add(new ContextSide(e.getPoint(),e.getPoint()));
+        	ContextMarkup markup = markupList.lastMarkup();
+        	
+        	if(markup.isNearOrigin() && markup.size() > 2){
+        		drawing = false;
+        		markup.lastSide().EndPoint(markup.firstSide().StartPoint());
+        	}
+        	else if(markup != null && markup.lastSide()!= null ){
+            	markup.lastSide().EndPoint(e.getPoint());
+            	markup.add(new ContextSide(e.getPoint(),e.getPoint()));
             }
+                    	
+        	
+        	
+            
             repaint();
         }
 
@@ -126,6 +137,20 @@ public class LinePanel extends JPanel {
                 repaint();
             }
         }
+        
+//        @Override
+//        public void mouseClicked(MouseEvent arg0) {
+//        	super.mouseClicked(arg0);
+//        	
+//        	ContextMarkup markup = markupList.lastMarkup();
+//        	
+//        	if(markup.isNearOrigin() && markup.size() > 1){
+//        		drawing = false;
+//        		markup.lastSide().EndPoint(markup.firstSide().StartPoint());
+//        	}
+//        	
+//        	repaint();
+//        }
     }
 
     private class KeyBoardHandler extends KeyAdapter /*implements KeyListener*/{
