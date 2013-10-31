@@ -37,6 +37,9 @@ public class MainScreen extends JFrame {
 	public static final String HOUSE_PERSON_PATH = "C:\\GitHub\\SmartHouse\\Images\\person.png";
 	public static final String HOUSE_CONTEXT_PATH = "Images/HouseMapImages/Lighted/area_social_partial.png";
 
+	public static final int WINDOW_WIDTH = 800;
+	public static final int WINDOW_HEIGHT = 600;
+
 	JPanel stagePanel;
 	HouseMapImage houseMap;
 	JLabel lblPerson;
@@ -87,10 +90,10 @@ public class MainScreen extends JFrame {
 		
 
 		// muda tamanho da janela para comportar o mapa da casa
-		this.setSize(houseMap.getImage().getIconWidth(), houseMap.getImage().getIconHeight());
+		this.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 		// cria stage
 		stagePanel = new JPanel();
-		stagePanel.setBounds(0, 0, houseMap.getImage().getIconWidth(), houseMap.getImage().getIconHeight());
+		stagePanel.setBounds(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
 		//getContentPane().add(stagePanel, BorderLayout.CENTER);
 		getContentPane().add(new LinePanel(), BorderLayout.CENTER);
 		stagePanel.setLayout(null);

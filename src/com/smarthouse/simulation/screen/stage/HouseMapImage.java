@@ -1,14 +1,21 @@
 package com.smarthouse.simulation.screen.stage;
 
 import java.awt.Component;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPopupMenu;
+
+import com.smarthouse.simulation.screen.MainScreen;
 
 public class HouseMapImage extends JLabel {
 
@@ -42,12 +49,25 @@ public class HouseMapImage extends JLabel {
 
 	private void loadImage() {
 		image = new ImageIcon(HOUSE_MAP_PATH);
+		BufferedImage bi = null;
+		
+		try {
+			
+			bi = ImageIO.read(new File(HOUSE_MAP_PATH));
+			image.setImage(bi.getScaledInstance(MainScreen.WINDOW_WIDTH, MainScreen.WINDOW_HEIGHT, 0));
+			
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+		}
+		finally{
+			bi = null;
+		}
+		
 	}
 
 	private void buildComponent() {
 		loadImage();
-
-		this.setBounds(0, 0, image.getIconWidth(), image.getIconHeight());
 		this.setIcon(image);
 		
 //		this.addMouseListener(new MouseAdapter() {
